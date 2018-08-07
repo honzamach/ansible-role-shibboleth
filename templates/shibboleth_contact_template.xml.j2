@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- ++++++++++++++++++++++ansible-managed-file+++++++++++++++++++++++++++++++++
+
+                             IMPORTANT WARNING
+
+   This file is managed remotely by Ansible orchestration tool. Any local
+   changes will be overwritten without any notice !!! You have been warned !!!
+
++++++++++++++++++++++++++++ansible-managed-file+++++++++++++++++++++++++++++ -->
+<md:EntityDescriptor xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata">
+
+    <md:SPSSODescriptor>
+        <md:AssertionConsumerService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="https://lists.ten.cz/Shibboleth.sso/SAML2/POST" index="1"/>
+
+        <md:Extensions>
+            <mdui:UIInfo xmlns:mdui="urn:oasis:names:tc:SAML:metadata:ui">
+{% for lang, label in hm_shibboleth__service_name.iteritems() %}
+                <mdui:DisplayName xml:lang="{{ lang }}">{{ label }}</mdui:DisplayName>
+{% endfor %}
+{% for lang, label in hm_shibboleth__service_description.iteritems() %}
+                <mdui:Description xml:lang="{{ lang }}">{{ label }}</mdui:Description>
+{% endfor %}
+{% for lang, label in hm_shibboleth__service_description.iteritems() %}
+                <mdui:InformationURL xml:lang="{{ lang }}">https://{{ ansible_fqdn }}/</mdui:InformationURL>
+{% endfor %}
+            </mdui:UIInfo>
+        </md:Extensions>
+
+    </md:SPSSODescriptor>
+
+    <md:Organization>
+{% for lang, label in hm_shibboleth__organization_name.iteritems() %}
+        <md:OrganizationName xml:lang="{{ lang }}">{{ label }}</md:OrganizationName>
+{% endfor %}
+{% for lang, label in hm_shibboleth__organization_description.iteritems() %}
+        <md:OrganizationDisplayName xml:lang="{{ lang }}">{{ label }}</md:OrganizationDisplayName>
+{% endfor %}
+{% for lang, label in hm_shibboleth__organization_url.iteritems() %}
+        <md:OrganizationURL xml:lang="{{ lang }}">{{ label }}</md:OrganizationURL>
+{% endfor %}
+    </md:Organization>
+
+{% for admin in hm_accounts__admins %}
+
+    <md:ContactPerson contactType="technical">
+        <md:GivenName>{{ site_users[admin]['firstname'] }}</md:GivenName>
+        <md:SurName>{{ site_users[admin]['lastname'] }}</md:SurName>
+        <md:EmailAddress>mailto:{{ site_users[admin]['email'] }}</md:EmailAddress>
+    </md:ContactPerson>
+{% endfor %}
+
+</md:EntityDescriptor>

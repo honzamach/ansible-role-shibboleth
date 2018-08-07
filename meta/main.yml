@@ -1,0 +1,18 @@
+galaxy_info:
+  role_name: shibboleth
+  author: Jan Mach
+  description: Ansible role for managing Shibboleth SSO service.
+  company: CESNET, a.l.e.
+  license: MIT
+  min_ansible_version: 2.5
+  github_branch: master
+  platforms:
+    - name: Debian
+      versions:
+        - stretch
+        - jessie
+  galaxy_tags:
+    - system
+    - management
+
+dependencies: []

@@ -1,0 +1,41 @@
+---
+
+#
+# Name of the service in multiple localizations.
+#
+hm_shibboleth__service_name:
+  en: Service name
+  cs: Název služby
+
+#
+# Service description in multiple localizations.
+#
+hm_shibboleth__service_description:
+  en: Service description
+  cs: Popis služby
+
+#
+# Name of the organization in multiple localizations.
+#
+hm_shibboleth__organization_name:
+  en: Organization, a.l.e.
+  cs: Organizace, z.s.p.o
+
+#
+# Organization description in multiple localizations.
+#
+hm_shibboleth__organization_description:
+  en: Organization description
+  cs: Popis organizace
+
+#
+# Organization URL in multiple localizations.
+#
+hm_shibboleth__organization_url:
+  en: http://en.organization.org
+  cs: http://cs.organization.org
+
+#
+# Download Shibboleth metadata after configuring the service.
+#
+hm_shibboleth__download_metadata: false

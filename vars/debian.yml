@@ -1,0 +1,6 @@
+---
+
+#
+# Name of the ShbbolethSSO service.
+#
+hm_shibboleth__daemon_name: shibd

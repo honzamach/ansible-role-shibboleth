@@ -1,0 +1,95 @@
+---
+
+- name: Ensuring Shibboleth service is running and enabled at system start.
+  service:
+    name: "{{ hm_shibboleth__daemon_name }}"
+    state: started
+    enabled: yes
+
+- name: Configuring Shibboleth
+  template:
+    src: "{{ item }}"
+    dest: /etc/shibboleth/shibboleth2.xml
+    owner: root
+    group: root
+    mode: 0644
+    backup: yes
+  with_first_found:
+    - "host_files/{{ inventory_hostname }}/shibboleth2.xml.{{ ansible_distribution_release }}.j2"
+    - "host_files/{{ inventory_hostname }}/shibboleth2.xml.j2"
+    - "group_files/servers-production/shibboleth2.xml.{{ ansible_distribution_release }}.j2"
+    - "group_files/servers-production/shibboleth2.xml.j2"
+    - "group_files/servers-development/shibboleth2.xml.{{ ansible_distribution_release }}.j2"
+    - "group_files/servers-development/shibboleth2.xml.j2"
+    - "group_files/servers-demo/shibboleth2.xml.{{ ansible_distribution_release }}.j2"
+    - "group_files/servers-demo/shibboleth2.xml.j2"
+    - "group_files/servers/shibboleth2.xml.{{ ansible_distribution_release }}.j2"
+    - "group_files/servers/shibboleth2.xml.j2"
+    - "shibboleth2.xml.{{ ansible_distribution_release }}.j2"
+    - "shibboleth2.xml.j2"
+  notify: Restart shibboleth service
+
+- name: Configuring Shibboleth contact template file
+  template:
+    src: "{{ item }}"
+    dest: /etc/shibboleth/shibboleth_contact_template.xml
+    owner: root
+    group: root
+    mode: 0644
+    backup: yes
+  with_first_found:
+    - "host_files/{{ inventory_hostname }}/shibboleth_contact_template.xml.{{ ansible_distribution_release }}.j2"
+    - "host_files/{{ inventory_hostname }}/shibboleth_contact_template.xml.j2"
+    - "group_files/servers-production/shibboleth_contact_template.xml.{{ ansible_distribution_release }}.j2"
+    - "group_files/servers-production/shibboleth_contact_template.xml.j2"
+    - "group_files/servers-development/shibboleth_contact_template.xml.{{ ansible_distribution_release }}.j2"
+    - "group_files/servers-development/shibboleth_contact_template.xml.j2"
+    - "group_files/servers-demo/shibboleth_contact_template.xml.{{ ansible_distribution_release }}.j2"
+    - "group_files/servers-demo/shibboleth_contact_template.xml.j2"
+    - "group_files/servers/shibboleth_contact_template.xml.{{ ansible_distribution_release }}.j2"
+    - "group_files/servers/shibboleth_contact_template.xml.j2"
+    - "shibboleth_contact_template.xml.{{ ansible_distribution_release }}.j2"
+    - "shibboleth_contact_template.xml.j2"
+  notify: Restart shibboleth service
+
+- name: Configuring Shibboleth attribute map file
+  template:
+    src: "{{ item }}"
+    dest: /etc/shibboleth/attribute-map.xml
+    owner: root
+    group: root
+    mode: 0644
+    backup: yes
+  with_first_found:
+    - "host_files/{{ inventory_hostname }}/attribute-map.xml.{{ ansible_distribution_release }}.j2"
+    - "host_files/{{ inventory_hostname }}/attribute-map.xml.j2"
+    - "group_files/servers-production/attribute-map.xml.{{ ansible_distribution_release }}.j2"
+    - "group_files/servers-production/attribute-map.xml.j2"
+    - "group_files/servers-development/attribute-map.xml.{{ ansible_distribution_release }}.j2"
+    - "group_files/servers-development/attribute-map.xml.j2"
+    - "group_files/servers-demo/attribute-map.xml.{{ ansible_distribution_release }}.j2"
+    - "group_files/servers-demo/attribute-map.xml.j2"
+    - "group_files/servers/attribute-map.xml.{{ ansible_distribution_release }}.j2"
+    - "group_files/servers/attribute-map.xml.j2"
+    - "attribute-map.xml.{{ ansible_distribution_release }}.j2"
+    - "attribute-map.xml.j2"
+  notify: Restart shibboleth service
+
+- name: Managing local directory for service metadata
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: 0755
+  with_items:
+    - "{{ playbook_dir }}/spool"
+    - "{{ playbook_dir }}/spool/{{ role_name }}"
+  delegate_to: localhost
+  when: hm_shibboleth__download_metadata
+
+- name: Fetching current service metadata
+  get_url:
+    url: "https://{{ ansible_fqdn }}/Shibboleth.sso/Metadata"
+    dest: "{{ playbook_dir }}/spool/{{ role_name }}/{{ ansible_fqdn }}.metadata.xml"
+    mode: 0440
+  delegate_to: localhost
+  when: hm_shibboleth__download_metadata

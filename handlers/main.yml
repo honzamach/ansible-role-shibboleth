@@ -1,0 +1,12 @@
+---
+- name: Restart shibboleth service
+  service:
+    name: "{{ hm_shibboleth__daemon_name }}"
+    state: restarted
+  notify: Restart apache service
+
+- name: Restart apache service
+  service:
+    name: apache2
+    state: restarted
+
