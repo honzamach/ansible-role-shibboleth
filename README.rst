@@ -149,12 +149,12 @@ Example Playbook
 
 Example content of inventory file ``inventory``::
 
-    [servers-shibboleth]
+    [servers_shibboleth]
     localhost
 
 Example content of role playbook file ``playbook.yml``::
 
-    - hosts: servers-shibboleth
+    - hosts: servers_shibboleth
       remote_user: root
       roles:
         - role: honzamach.shibboleth

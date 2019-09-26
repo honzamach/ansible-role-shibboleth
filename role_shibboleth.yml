@@ -11,7 +11,7 @@
 #   git clone https://github.com/honzamach/ansible-role-shibboleth.git honzamach.shibboleth
 #
 
-- hosts: servers-shibboleth
+- hosts: servers_shibboleth
   remote_user: root
   roles:
     - role: honzamach.shibboleth
