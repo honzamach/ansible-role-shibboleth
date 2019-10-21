@@ -14,13 +14,13 @@
 
         <md:Extensions>
             <mdui:UIInfo xmlns:mdui="urn:oasis:names:tc:SAML:metadata:ui">
-{% for lang, label in hm_shibboleth__service_name.iteritems() %}
+{% for lang, label in hm_shibboleth__service_name|dictsort %}
                 <mdui:DisplayName xml:lang="{{ lang }}">{{ label }}</mdui:DisplayName>
 {% endfor %}
-{% for lang, label in hm_shibboleth__service_description.iteritems() %}
+{% for lang, label in hm_shibboleth__service_description|dictsort %}
                 <mdui:Description xml:lang="{{ lang }}">{{ label }}</mdui:Description>
 {% endfor %}
-{% for lang, label in hm_shibboleth__service_description.iteritems() %}
+{% for lang, label in hm_shibboleth__service_description|dictsort %}
                 <mdui:InformationURL xml:lang="{{ lang }}">https://{{ ansible_fqdn }}/</mdui:InformationURL>
 {% endfor %}
             </mdui:UIInfo>
@@ -29,13 +29,13 @@
     </md:SPSSODescriptor>
 
     <md:Organization>
-{% for lang, label in hm_shibboleth__organization_name.iteritems() %}
+{% for lang, label in hm_shibboleth__organization_name|dictsort %}
         <md:OrganizationName xml:lang="{{ lang }}">{{ label }}</md:OrganizationName>
 {% endfor %}
-{% for lang, label in hm_shibboleth__organization_description.iteritems() %}
+{% for lang, label in hm_shibboleth__organization_description|dictsort %}
         <md:OrganizationDisplayName xml:lang="{{ lang }}">{{ label }}</md:OrganizationDisplayName>
 {% endfor %}
-{% for lang, label in hm_shibboleth__organization_url.iteritems() %}
+{% for lang, label in hm_shibboleth__organization_url|dictsort %}
         <md:OrganizationURL xml:lang="{{ lang }}">{{ label }}</md:OrganizationURL>
 {% endfor %}
     </md:Organization>

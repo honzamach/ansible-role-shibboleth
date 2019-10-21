@@ -15,12 +15,12 @@
     mode: 0644
     backup: yes
   with_first_found:
-    - "host_files/{{ inventory_hostname }}/shibboleth2.xml.{{ ansible_distribution_release }}.j2"
-    - "host_files/{{ inventory_hostname }}/shibboleth2.xml.j2"
-    - "group_files/servers-{{ msms_server_type }}/shibboleth2.xml.{{ ansible_distribution_release }}.j2"
-    - "group_files/servers-{{ msms_server_type }}/shibboleth2.xml.j2"
-    - "group_files/servers/shibboleth2.xml.{{ ansible_distribution_release }}.j2"
-    - "group_files/servers/shibboleth2.xml.j2"
+    - "inventory/host_files/{{ inventory_hostname }}/honzamach.shibboleth/shibboleth2.xml.{{ ansible_distribution_release }}.j2"
+    - "inventory/host_files/{{ inventory_hostname }}/honzamach.shibboleth/shibboleth2.xml.j2"
+    - "inventory/group_files/servers_{{ msms_server_type }}/honzamach.shibboleth/shibboleth2.xml.{{ ansible_distribution_release }}.j2"
+    - "inventory/group_files/servers_{{ msms_server_type }}/honzamach.shibboleth/shibboleth2.xml.j2"
+    - "inventory/group_files/servers/honzamach.shibboleth/shibboleth2.xml.{{ ansible_distribution_release }}.j2"
+    - "inventory/group_files/servers/honzamach.shibboleth/shibboleth2.xml.j2"
     - "shibboleth2.xml.{{ ansible_distribution_release }}.j2"
     - "shibboleth2.xml.j2"
   notify: Restart shibboleth service
@@ -34,12 +34,12 @@
     mode: 0644
     backup: yes
   with_first_found:
-    - "host_files/{{ inventory_hostname }}/shibboleth_contact_template.xml.{{ ansible_distribution_release }}.j2"
-    - "host_files/{{ inventory_hostname }}/shibboleth_contact_template.xml.j2"
-    - "group_files/servers-{{ msms_server_type }}/shibboleth_contact_template.xml.{{ ansible_distribution_release }}.j2"
-    - "group_files/servers-{{ msms_server_type }}/shibboleth_contact_template.xml.j2"
-    - "group_files/servers/shibboleth_contact_template.xml.{{ ansible_distribution_release }}.j2"
-    - "group_files/servers/shibboleth_contact_template.xml.j2"
+    - "inventory/host_files/{{ inventory_hostname }}/honzamach.shibboleth/shibboleth_contact_template.xml.{{ ansible_distribution_release }}.j2"
+    - "inventory/host_files/{{ inventory_hostname }}/honzamach.shibboleth/shibboleth_contact_template.xml.j2"
+    - "inventory/group_files/servers_{{ msms_server_type }}/honzamach.shibboleth/shibboleth_contact_template.xml.{{ ansible_distribution_release }}.j2"
+    - "inventory/group_files/servers_{{ msms_server_type }}/honzamach.shibboleth/shibboleth_contact_template.xml.j2"
+    - "inventory/group_files/servers/honzamach.shibboleth/shibboleth_contact_template.xml.{{ ansible_distribution_release }}.j2"
+    - "inventory/group_files/servers/honzamach.shibboleth/shibboleth_contact_template.xml.j2"
     - "shibboleth_contact_template.xml.{{ ansible_distribution_release }}.j2"
     - "shibboleth_contact_template.xml.j2"
   notify: Restart shibboleth service
@@ -53,12 +53,12 @@
     mode: 0644
     backup: yes
   with_first_found:
-    - "host_files/{{ inventory_hostname }}/attribute-map.xml.{{ ansible_distribution_release }}.j2"
-    - "host_files/{{ inventory_hostname }}/attribute-map.xml.j2"
-    - "group_files/servers-{{ msms_server_type }}/attribute-map.xml.{{ ansible_distribution_release }}.j2"
-    - "group_files/servers-{{ msms_server_type }}/attribute-map.xml.j2"
-    - "group_files/servers/attribute-map.xml.{{ ansible_distribution_release }}.j2"
-    - "group_files/servers/attribute-map.xml.j2"
+    - "inventory/host_files/{{ inventory_hostname }}/honzamach.shibboleth/attribute-map.xml.{{ ansible_distribution_release }}.j2"
+    - "inventory/host_files/{{ inventory_hostname }}/honzamach.shibboleth/attribute-map.xml.j2"
+    - "inventory/group_files/servers_{{ msms_server_type }}/honzamach.shibboleth/attribute-map.xml.{{ ansible_distribution_release }}.j2"
+    - "inventory/group_files/servers_{{ msms_server_type }}/honzamach.shibboleth/attribute-map.xml.j2"
+    - "inventory/group_files/servers/honzamach.shibboleth/attribute-map.xml.{{ ansible_distribution_release }}.j2"
+    - "inventory/group_files/servers/honzamach.shibboleth/attribute-map.xml.j2"
     - "attribute-map.xml.{{ ansible_distribution_release }}.j2"
     - "attribute-map.xml.j2"
   notify: Restart shibboleth service
