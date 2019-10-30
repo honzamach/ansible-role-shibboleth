@@ -78,6 +78,6 @@
   get_url:
     url: "https://{{ ansible_fqdn }}/Shibboleth.sso/Metadata"
     dest: "{{ playbook_dir }}/spool/{{ role_name }}/{{ ansible_fqdn }}.metadata.xml"
-    mode: 0440
+    mode: 0644
   delegate_to: localhost
   when: hm_shibboleth__download_metadata
