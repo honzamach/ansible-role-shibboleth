@@ -1,6 +1,6 @@
 ---
 
-- name: Ensuring Shibboleth service is running and enabled at system start.
+- name: "Ensuring Shibboleth service is running and enabled at system start"
   service:
     name: "{{ hm_shibboleth__daemon_name }}"
     state: started
@@ -25,7 +25,7 @@
     - "shibboleth2.xml.j2"
   notify: Restart shibboleth service
 
-- name: Configuring Shibboleth contact template file
+- name: "Configuring Shibboleth contact template file"
   template:
     src: "{{ item }}"
     dest: /etc/shibboleth/shibboleth_contact_template.xml
@@ -44,7 +44,7 @@
     - "shibboleth_contact_template.xml.j2"
   notify: Restart shibboleth service
 
-- name: Configuring Shibboleth attribute map file
+- name: "Configuring Shibboleth attribute map file"
   template:
     src: "{{ item }}"
     dest: /etc/shibboleth/attribute-map.xml
@@ -63,7 +63,7 @@
     - "attribute-map.xml.j2"
   notify: Restart shibboleth service
 
-- name: Managing local directory for service metadata
+- name: "Managing local directory for service metadata"
   file:
     path: "{{ item }}"
     state: directory
@@ -74,7 +74,7 @@
   delegate_to: localhost
   when: hm_shibboleth__download_metadata
 
-- name: Fetching current service metadata
+- name: "Fetching current service metadata"
   get_url:
     url: "https://{{ ansible_fqdn }}/Shibboleth.sso/Metadata"
     dest: "{{ playbook_dir }}/spool/{{ role_name }}/{{ ansible_fqdn }}.metadata.xml"

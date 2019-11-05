@@ -1,12 +1,12 @@
 ---
 
-- name: Installing necessary packages
+- name: "Installing necessary packages"
   apt:
     name: libapache2-mod-shib2
     state: latest
   notify: Restart apache service
 
-- name: Enabling necessary Apache modules
+- name: "Enabling necessary Apache modules"
   apache2_module:
     name: "{{ item }}"
     state: present
@@ -16,12 +16,12 @@
 
 - meta: flush_handlers
 
-- name: Generating Shibboleth self-signed metadata certificate
-  shell: "shib-keygen -h {{ ansible_fqdn }} -y 30 -e https://{{ ansible_fqdn }}/shibboleth"
+- name: "Generating Shibboleth self-signed metadata certificate"
+  command: "shib-keygen -h {{ ansible_fqdn }} -y 30 -e https://{{ ansible_fqdn }}/shibboleth"
   args:
     creates: /etc/shibboleth/sp-cert.pem
 
-- name: Installing EduID metadata certificate files
+- name: "Installing EduID metadata certificate files"
   copy:
     src: metadata.eduid.cz.crt.pem
     dest: /etc/ssl/metadata.eduid.cz.crt.pem
