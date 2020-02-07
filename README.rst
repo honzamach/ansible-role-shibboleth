@@ -3,60 +3,125 @@
 Role **shibboleth**
 ================================================================================
 
-Ansible role for managing Shibboleth SSO service.
-
 * `Ansible Galaxy page <https://galaxy.ansible.com/honzamach/shibboleth>`__
 * `GitHub repository <https://github.com/honzamach/ansible-role-shibboleth>`__
 * `Travis CI page <https://travis-ci.org/honzamach/ansible-role-shibboleth>`__
-
-
-Description
---------------------------------------------------------------------------------
 
 This role will perform installation and configuration of Shibboleth SSO service
 for `Apache2 <https://httpd.apache.org/>`__ webserver. It is particularly customized
 to work within the `eduID <https://www.eduid.cz/en/index>`__ federation, so the
 built-in template files are composed according to the relevant policies.
 
-.. note::
+**Table of Contents:**
 
-    This role requires the :ref:`secure registry <section-overview-secure-registry>`
-    feature. The account registry will be used to fill-in technical contacts into
-    generated metadata.
+* :ref:`section-role-shibboleth-installation`
+* :ref:`section-role-shibboleth-dependencies`
+* :ref:`section-role-shibboleth-usage`
+* :ref:`section-role-shibboleth-variables`
+* :ref:`section-role-shibboleth-files`
+* :ref:`section-role-shibboleth-author`
 
-    This role supports the :ref:`template customization <section-overview-customize-templates>`
-    feature.
+This role is part of the `MSMS <https://github.com/honzamach/msms>`__ package.
+Some common features are documented in its :ref:`manual <section-manual>`.
 
+
+.. _section-role-shibboleth-installation:
+
+Installation
+--------------------------------------------------------------------------------
+
+To install the role `honzamach.shibboleth <https://galaxy.ansible.com/honzamach/shibboleth>`__
+from `Ansible Galaxy <https://galaxy.ansible.com/>`__ please use variation of
+following command::
+
+    ansible-galaxy install honzamach.shibboleth
+
+To install the role directly from `GitHub <https://github.com>`__ by cloning the
+`ansible-role-shibboleth <https://github.com/honzamach/ansible-role-shibboleth>`__
+repository please use variation of following command::
+
+    git clone https://github.com/honzamach/ansible-role-shibboleth.git honzamach.shibboleth
+
+Currently the advantage of using direct Git cloning is the ability to easily update
+the role when new version comes out.
+
+
+.. _section-role-shibboleth-dependencies:
 
 Dependencies
 --------------------------------------------------------------------------------
 
 This role is not dependent on any other role.
 
-No other roles have direct dependency on this role.
+Following roles have direct dependency on this role:
+
+* :ref:`alchemist <section-role-monitored>`
+* :ref:`mentat_cesnet <section-role-monitored>`
 
 
-Requirements
+.. _section-role-shibboleth-usage:
+
+Usage
 --------------------------------------------------------------------------------
 
-This role does not have any special requirements.
+Example content of inventory file ``inventory``::
+
+    [servers_shibboleth]
+    your-server
+
+Example content of role playbook file ``role_playbook.yml``::
+
+    - hosts: servers_shibboleth
+      remote_user: root
+      roles:
+        - role: honzamach.shibboleth
+      tags:
+        - role-shibboleth
+
+Example usage::
+
+    # Run everything:
+    ansible-playbook --ask-vault-pass --inventory inventory role_playbook.yml
+
+    # Download locally service metadata:
+    ansible-playbook --ask-vault-pass --inventory inventory role_playbook.yml --extra-vars '{"hm_shibboleth__download_metadata":true}'
+
+It is recommended to follow these configuration principles:
+
+* Create/edit file ``inventory/group_vars/all/vars.yml`` and within define some sensible
+  defaults for all your managed servers. Example::
+
+        hm_shibboleth__organization_name:
+            en: CESNET
+            cs: CESNET
+        hm_shibboleth__organization_description:
+            en: CESNET, NREN for Czech republic
+            cs: CESNET, Síť národního výzkumu pro ČR
+        hm_shibboleth__organization_url:
+            en: http://www.ces.net/
+            cs: http://www.cesnet.cz/
+        hm_shibboleth__download_metadata: true
+
+* Use files ``inventory/host_vars/[your-server]/vars.yml`` to customize settings
+  for particular servers. Please see section :ref:`section-role-shibboleth-variables`
+  for all available options. Example::
+
+        hm_shibboleth__service_name:
+            en: Mentat - HUB
+            cs: Mentat - HUB
+        hm_shibboleth__service_description:
+            en: Main server for Mentat system.
+            cs: Hlavní server pro systém Mentat.
 
 
-Managed files
+.. _section-role-shibboleth-variables:
+
+Configuration variables
 --------------------------------------------------------------------------------
 
-This role directly manages content of following files on target system:
 
-* ``/etc/shibboleth/shibboleth2.xml``
-* ``/etc/shibboleth/attribute-map.xml``
-* ``/etc/shibboleth/shibboleth_contact_template.xml``
-
-
-Role variables
---------------------------------------------------------------------------------
-
-There are following internal role variables defined in ``defaults/main.yml`` file,
-that can be overriden and adjusted as needed:
+Internal role variables
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. envvar:: hm_shibboleth__service_name
 
@@ -101,79 +166,49 @@ that can be overriden and adjusted as needed:
     * *Default:* ``false``
 
 
-Usage and customization
+Foreign variables
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+:envvar:`site_users`
+
+    User database will be used to fill in contact information for service administrators.
+
+
+Built-in Ansible variables
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+:envvar:`group_names`
+
+    List of group names current host is member of. This variable is used to resolve
+    :ref:`soft role dependencies <section-overview-role-soft-dependencies>`.
+
+:envvar:`ansible_lsb['codename']`
+
+    Linux distribution codename. It is used for :ref:`template customizations <section-overview-role-customize-templates>`.
+
+
+.. _section-role-shibboleth-files:
+
+Managed files
 --------------------------------------------------------------------------------
 
-This role is (attempted to be) written according to the `Ansible best practices <https://docs.ansible.com/ansible/latest/user_guide/playbooks_best_practices.html>`__. The default implementation should fit most users,
-however you may customize it by tweaking default variables and providing custom
-templates.
+.. note::
+
+    This role supports the :ref:`template customization <section-overview-role-customize-templates>` feature.
+
+This role manages content of following files on target system:
+
+* ``/etc/shibboleth/shibboleth2.xml`` *[TEMPLATE]*
+* ``/etc/shibboleth/attribute-map.xml`` *[TEMPLATE]*
+* ``/etc/shibboleth/shibboleth_contact_template.xml`` *[TEMPLATE]*
 
 
-Variable customizations
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.. _section-role-shibboleth-author:
 
-Most of the usefull variables are defined in ``defaults/main.yml`` file, so they
-can be easily overridden almost from `anywhere <https://docs.ansible.com/ansible/latest/user_guide/playbooks_variables.html#variable-precedence-where-should-i-put-a-variable>`__.
-
-
-Template customizations
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-This roles uses *with_first_found* mechanism for all of its templates. If you do
-not like anything about built-in template files you may provide your own custom
-templates. For now please see the role tasks for list of all checked paths for
-each of the template files.
-
-
-Installation
+Author and license
 --------------------------------------------------------------------------------
 
-To install the role `honzamach.shibboleth <https://galaxy.ansible.com/honzamach/shibboleth>`__
-from `Ansible Galaxy <https://galaxy.ansible.com/>`__ please use variation of
-following command::
-
-    ansible-galaxy install honzamach.shibboleth
-
-To install the role directly from `GitHub <https://github.com>`__ by cloning the
-`ansible-role-shibboleth <https://github.com/honzamach/ansible-role-shibboleth>`__
-repository please use variation of following command::
-
-    git clone https://github.com/honzamach/ansible-role-shibboleth.git honzamach.shibboleth
-
-Currently the advantage of using direct Git cloning is the ability to easily update
-the role when new version comes out.
-
-
-Example Playbook
---------------------------------------------------------------------------------
-
-Example content of inventory file ``inventory``::
-
-    [servers_shibboleth]
-    localhost
-
-Example content of role playbook file ``playbook.yml``::
-
-    - hosts: servers_shibboleth
-      remote_user: root
-      roles:
-        - role: honzamach.shibboleth
-      tags:
-        - role-shibboleth
-
-Example usage::
-
-    ansible-playbook -i inventory playbook.yml
-    ansible-playbook -i inventory playbook.yml --extra-vars '{"hm_shibboleth__download_metadata":true}'
-
-
-License
---------------------------------------------------------------------------------
-
-MIT
-
-
-Author Information
---------------------------------------------------------------------------------
-
-Jan Mach <jan.mach@cesnet.cz>, CESNET, a.l.e.
+| *Copyright:* (C) since 2019 Jan Mach <jan.mach@cesnet.cz>, CESNET, a.l.e.
+| *Author:* Jan Mach <jan.mach@cesnet.cz>, CESNET, a.l.e.
+| Use of this role is governed by the MIT license, see LICENSE file.
+|
