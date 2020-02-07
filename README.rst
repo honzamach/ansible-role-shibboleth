@@ -56,7 +56,6 @@ This role is not dependent on any other role.
 Following roles have direct dependency on this role:
 
 * :ref:`alchemist <section-role-monitored>`
-* :ref:`mentat_cesnet <section-role-monitored>`
 
 
 .. _section-role-shibboleth-usage:
