@@ -10,8 +10,6 @@
 <md:EntityDescriptor xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata">
 
     <md:SPSSODescriptor>
-        <md:AssertionConsumerService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="https://lists.ten.cz/Shibboleth.sso/SAML2/POST" index="1"/>
-
         <md:Extensions>
             <mdui:UIInfo xmlns:mdui="urn:oasis:names:tc:SAML:metadata:ui">
 {% for lang, label in hm_shibboleth__service_name|dictsort %}
