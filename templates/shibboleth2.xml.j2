@@ -43,7 +43,7 @@
         -->
         <!-- <Sessions lifetime="28800" timeout="3600" checkAddress="false" relayState="ss:mem" handlerSSL="false"> -->
         <Sessions lifetime="28800" timeout="3600" checkAddress="false" consistentAddress="true"
-                  handlerURL="/Shibboleth.sso" handlerSSL="true"
+                  handlerURL="/Shibboleth.sso" handlerSSL="true" redirectLimit="exact"
                   cookieProps="; path=/; secure"
                   idpHistory="false" idpHistoryDays="7">
 
